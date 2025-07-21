@@ -1,5 +1,6 @@
 // Data containing image paths and coordinates for text/QR placement
-const data = {
+const data = [{
+    "name": "Blanca",
     // Using a placeholder image for demo purposes. In a real application, you would host your 'thiep.jpg'.
     "image": "./thiep.jpg",
     // Adjust these coordinates (X, Y) to precisely position the Name
@@ -10,7 +11,20 @@ const data = {
     "locationDate": [360, 450], // Current values. Try adjusting, e.g., [270, 370]
     // Adjust these coordinates (X, Y) to precisely position the QR code
     "locationQR": [570, 150]   // Current values. Try adjusting, e.g., [400, 120]
-};
+}, 
+{
+    "name": "Fiato",
+    // Using a placeholder image for demo purposes. In a real application, you would host your 'thiep.jpg'.
+    "image": "./thiep.jpg",
+    // Adjust these coordinates (X, Y) to precisely position the Name
+    // X (first number): moves text left/right. Increase to move right.
+    // Y (second number): moves text up/down. Increase to move down.
+    "locationName": [360, 200], // Current values. Try adjusting, e.g., [150, 160]
+    // Adjust these coordinates (X, Y) to precisely position the Date
+    "locationDate": [360, 450], // Current values. Try adjusting, e.g., [270, 370]
+    // Adjust these coordinates (X, Y) to precisely position the QR code
+    "locationQR": [570, 150]   // Current values. Try adjusting, e.g., [400, 120]
+}];
 
 // Helper to load image as Image object
 function loadImage(src) {
