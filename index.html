@@ -123,7 +123,7 @@
 
       <div id="button-modal">
         <button id="share-button"
-          class="btn-gloden hidden inline-block px-5 py-2 rounded-md font-semibold hover:bg-yellow-600 transition duration-300 ease-in-out shadow-md">Chia
+          class="btn-gloden hidden text-white inline-block px-5 py-2 rounded-md font-semibold hover:bg-yellow-600 transition duration-300 ease-in-out shadow-md">Chia
           Sẻ</button>
         <a id="download-link" href="#" download="invitation.png"
           class="btn-gloden hidden inline-block mt-4  text-white px-5 py-2 rounded-md font-semibold hover:bg-green-700 transition duration-300 ease-in-out shadow-md">Tải
@@ -311,6 +311,7 @@
         const qrApiUrl = `https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=${encodeURIComponent(qrValue)}`;
 
         const dataUrl = await generateInvitation(name, date, qrApiUrl, selectedTemplate);
+        submitForm(name, phone, date, eventName);
 
         resultImg.src = dataUrl;
         resultImg.classList.remove('hidden');
@@ -373,6 +374,56 @@
         showAlert("Trình duyệt của bạn không hỗ trợ chức năng chia sẻ trực tiếp. Vui lòng tải xuống thiệp mời và chia sẻ thủ công trên các nền tảng xã hội.");
       }
     }
+
+
+/**
+         * Submits form data to a Google Form.
+         * IMPORTANT: You need to replace the placeholder URLs and entry IDs
+         * with your actual Google Form's publish URL and field entry IDs.
+         * See instructions below on how to find them.
+         * @param {string} name - The name from the form.
+         * @param {string} phone - The phone number from the form.
+         * @param {string} time - The selected invitation time.
+         * @param {string} eventName - The selected event name.
+         */
+        async function submitForm(name, phone, time, eventName) {
+            // Replace 'YOUR_GOOGLE_FORM_ID' with the actual ID of your Google Form.
+            // Example: If your form's publish URL is https://docs.google.com/forms/d/e/1FAIpQLSfp_.../viewform,
+            // then the ID is 1FAIpQLSfp_...
+              const formURL = 'https://docs.google.com/forms/d/e/1FAIpQLSdcWyE2dGdLmRVhWiAsLkQGOKW1JDKTqDj-zpJYt6edppa3ZQ/formResponse';
+            // Replace 'entry.YOUR_FIELD_ENTRY_ID' with the actual entry IDs for your Google Form fields.
+            // To find these IDs:
+            // 1. Open your Google Form in edit mode.
+            // 2. Click the "Send" button.
+            // 3. Select the "<>" (Embed HTML) tab.
+            // 4. Copy the embed HTML code.
+            // 5. In that code, look for `name="entry.XXXXXXXXXX"` attributes for each field.
+            //    For example: <input type="text" name="entry.123456789" ...>
+            //    The ID for that field would be 'entry.123456789'.
+            const fieldName = 'entry.1393368194'; // Example: 'entry.200xxxxxxxx'
+            const fieldPhone = 'entry.1550668250'; // Example: 'entry.116xxx'
+            const fieldTime = 'entry.1750559889'; // Example: 'entry.10xxxxxxxx' (if you have a separate field for time)
+            const fieldEvent = 'entry.1867037293'; // Example: 'entry.106xxxxxxxx' (if you have a separate field for event)
+
+            const formData = new FormData();
+            formData.append(fieldName, name);
+            formData.append(fieldPhone, phone);
+            formData.append(fieldTime, time);
+            formData.append(fieldEvent, eventName);
+
+            try {
+                const response = await fetch(formURL, {
+                    method: 'POST',
+                    mode: 'no-cors', // Important for sending data to Google Forms without CORS issues
+                    body: formData,
+                });
+                console.log('Information successfully sent to Google Form (response might be opaque due to no-cors mode).');
+            } catch (error) {
+                console.error('Error sending information to Google Form:', error);
+                // You might want to show a user-facing alert here if form submission is critical
+                // showAlert("There was an error submitting your registration. Please try again.");
+            }
+        }
   </script>
 </body>
 
